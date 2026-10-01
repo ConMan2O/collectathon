@@ -15,7 +15,14 @@ This code sectoin seems to update the score of the player when he interacts with
         bn::string<MAX_SCORE_CHARS> score_string = bn::to_string<MAX_SCORE_CHARS>(score);
         score_sprites.clear();
         text_generator.generate(SCORE_X, SCORE_Y, score_string, score_sprites);
-        
+
+Kevin - 
+bn::string<MAX_SCORE_CHARS> score_string = bn::to_string<MAX_SCORE_CHARS>(score);
+        score_sprites.clear();
+        text_generator.generate(SCORE_X, SCORE_Y,
+                                score_string,
+                                score_sprites);   
+This piece of code updates the score. I see there is a clear method which I think erases the current score before its updated with the newer score. 
 
 ## Planning required changes
 
