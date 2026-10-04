@@ -14,7 +14,7 @@
 #include "common_fixed_8x16_font.h"
 
 // Pixels / Frame player moves at
-static constexpr bn::fixed SPEED = 1;
+static constexpr bn::fixed SPEED = 1.1;
 
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
@@ -43,6 +43,11 @@ int main()
     bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> score_sprites = {};
     bn::sprite_text_generator text_generator(common::fixed_8x16_sprite_font);
 
+    // timer used for speed boost functionality (measured in frames)
+    int boostTimer = 0;
+    // charges of boost ability
+    int boostCount = 3;
+
     int score = 0;
 
     bn::sprite_ptr player = bn::sprite_items::square.create_sprite(-50, 50);
@@ -51,21 +56,47 @@ int main()
     while (true)
     {
         // Move player with d-pad
-        if (bn::keypad::left_held())
-        {
-            player.set_x(player.x() - SPEED);
+        if (boostTimer > 0) { 
+            // if there is time remaining on a boost, double movement speed
+            if (bn::keypad::left_held())
+            {
+                player.set_x(player.x() - (SPEED * 2));
+            }
+            if (bn::keypad::right_held())
+            {
+                player.set_x(player.x() + (SPEED * 2));
+            }
+            if (bn::keypad::up_held())
+            {
+                player.set_y(player.y() - (SPEED * 2));
+            }
+            if (bn::keypad::down_held())
+            {
+                player.set_y(player.y() + (SPEED * 2));
+            }
+            boostTimer--; // subtract time from boost each frame
+        } else { // if no boost time remaining: move at normal speed
+            if (bn::keypad::left_held())
+            {
+                player.set_x(player.x() - SPEED);
+            }
+            if (bn::keypad::right_held())
+            {
+                player.set_x(player.x() + SPEED);
+            }
+            if (bn::keypad::up_held())
+            {
+                player.set_y(player.y() - SPEED);
+            }
+            if (bn::keypad::down_held())
+            {
+                player.set_y(player.y() + SPEED);
+            }
         }
-        if (bn::keypad::right_held())
-        {
-            player.set_x(player.x() + SPEED);
-        }
-        if (bn::keypad::up_held())
-        {
-            player.set_y(player.y() - SPEED);
-        }
-        if (bn::keypad::down_held())
-        {
-            player.set_y(player.y() + SPEED);
+        // when player presses A and boost is not active, add ~5 seconds to boost timer
+        if (bn::keypad::a_pressed() && boostCount > 0 && boostTimer == 0) {      
+            boostTimer = 300;
+            boostCount--;
         }
 
         // The bounding boxes of the player and treasure, snapped to integer pixels
