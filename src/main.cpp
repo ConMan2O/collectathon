@@ -15,7 +15,8 @@
 #include "common_fixed_8x16_font.h"
 
 // Pixels / Frame player moves at
-static constexpr bn::fixed SPEED = 1.1;
+// Change 1 - Changed the speed from 1 to 2
+static constexpr bn::fixed SPEED = 2.0;
 
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
@@ -45,7 +46,7 @@ int main()
     bn::core::init();
 
     // Change 2 - Changed the backdrop color to a light blue color
-    bn::bg_palettes::set_transparent_color(bn::color(0, 0, 31));
+    bn::bg_palettes::set_transparent_color(bn::color(20, 26, 31));
 
     bn::random rng = bn::random();
 
@@ -72,6 +73,8 @@ int main()
             score = 0;
             player.set_position(PLAYER_START_X, PLAYER_START_Y);
             treasure.set_position(TREASURE_START_X, TREASURE_START_Y);
+            boostTimer = 0;
+            boostCount = 3;
         }
 
         // Change 5 - The player loops around the screen when they go off the edge
