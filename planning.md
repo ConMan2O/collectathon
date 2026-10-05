@@ -2,6 +2,8 @@ A place to write your findings and plans
 
 ## Understanding
 
+player is moved by adding/subtracting speed from current position
+
 This code section seems to make the "collectable" jump to a random x and y position on the screen when the player touches it: 
 if (player_rect.intersects(treasure_rect)){
             // Jump to any random point in the screen
@@ -15,9 +17,27 @@ This code sectoin seems to update the score of the player when he interacts with
         bn::string<MAX_SCORE_CHARS> score_string = bn::to_string<MAX_SCORE_CHARS>(score);
         score_sprites.clear();
         text_generator.generate(SCORE_X, SCORE_Y, score_string, score_sprites);
-        
+
+Kevin - 
+bn::string<MAX_SCORE_CHARS> score_string = bn::to_string<MAX_SCORE_CHARS>(score);
+        score_sprites.clear();
+        text_generator.generate(SCORE_X, SCORE_Y,
+                                score_string,
+                                score_sprites);   
+This piece of code updates the score. I see there is a clear method which I think erases the current score before its updated with the newer score. 
 
 ## Planning required changes
+
+1. Change the speed of the player
+    should be simple, just changing speed value
+2. Change the backdrop color
+    can copy code from previous assignments to set bg color
+3. Change the starting position of the player and dot, making new static constexpr for starting X and Y of each
+4. Make it so when the player hits start, the game restarts (the player and treasure are sent back to their initial positions and the score is reset to zero)
+5. Make it so that the player loops around the screen (if they go off the left of the screen, they show up on the right, if they go off the bottom of the screen they show up at the top, etc.)
+6. Make a speed boost. When the player presses 'A', their speed is increased for a short amount of time. They can only use the speed boost 3 times. They get all speed boosts back when the game is restarted by pressing start.
+    maybe add a timer and a conditional that checks if the timer is > 0 and applies speed to pos twice if so
+    timer could tick down every frame (if > 0) and increase on A press
 
 ## Brainstorming game ideas
 
