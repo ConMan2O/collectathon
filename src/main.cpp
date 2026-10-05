@@ -8,13 +8,18 @@
 #include <bn_sprite_text_generator.h>
 #include <bn_size.h>
 #include <bn_string.h>
-
+#include <bn_bg_palettes.h>
+#include <bn_color.h>
 #include "bn_sprite_items_dot.h"
 #include "bn_sprite_items_square.h"
 #include "common_fixed_8x16_font.h"
 
 // Pixels / Frame player moves at
-static constexpr bn::fixed SPEED = 1;
+// Change 1 - Switched speed from 1 to 2
+static constexpr bn::fixed SPEED = 1.1;
+
+
+
 
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
@@ -33,9 +38,18 @@ static constexpr int MAX_SCORE_CHARS = 11;
 static constexpr int SCORE_X = 70;
 static constexpr int SCORE_Y = -70;
 
+// Change 3 - Changing the starting position of the player and the dot
+static constexpr int PLAYER_START_X = -25;
+static constexpr int PLAYER_START_Y = 25;
+static constexpr int TREASURE_START_X = 0;
+static constexpr int TREASURE_START_Y = 0;
+
 int main()
 {
     bn::core::init();
+
+    // Change 2 - Changed the backdrop color to a light blue color
+    bn::bg_palettes::set_transparent_color(bn::color(0, 0, 31));
 
     bn::random rng = bn::random();
 
@@ -45,11 +59,34 @@ int main()
 
     int score = 0;
 
-    bn::sprite_ptr player = bn::sprite_items::square.create_sprite(-50, 50);
-    bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(0, 0);
+    bn::sprite_ptr player = bn::sprite_items::square.create_sprite(PLAYER_START_X, PLAYER_START_Y);
+    bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(TREASURE_START_X, TREASURE_START_Y);
 
     while (true)
     {
+
+        // Change 4 - When the player hits start, the game restarts
+        if (bn::keypad::start_pressed())
+        {
+            score = 0;
+            player.set_position(PLAYER_START_X, PLAYER_START_Y);
+            treasure.set_position(TREASURE_START_X, TREASURE_START_Y);
+        }
+
+        // Change 5 - The player loops around the screen when they go off the edge
+        if (player.x() < MIN_X){
+            player.set_x(MAX_X);
+        }
+        if (player.x() > MAX_X){
+            player.set_x(MIN_X);
+        }
+        if (player.y() < MIN_Y){
+            player.set_y(MAX_Y);
+        }
+        if (player.y() > MAX_Y){
+            player.set_y(MIN_Y);
+        }
+
         // Move player with d-pad
         if (bn::keypad::left_held())
         {
