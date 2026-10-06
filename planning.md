@@ -30,7 +30,7 @@ KFG -
 // Score location
 static constexpr int SCORE_X = 70;
 static constexpr int SCORE_Y = -70;
-This code displays the score on the screen
+This code displays the score on the screen.
 
 KFG - 
 // charges of boost ability
