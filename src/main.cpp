@@ -31,9 +31,10 @@ static constexpr int MAX_X = bn::display::width() / 2;
 // Number of characters required to show the longest numer possible in an int (-2147483647)
 static constexpr int MAX_SCORE_CHARS = 11;
 
+// Slight change - KFG
 // Score location
-static constexpr int SCORE_X = 70;
-static constexpr int SCORE_Y = -70;
+static constexpr int SCORE_X = 80;
+static constexpr int SCORE_Y = -60;
 
 // Change 3 - Changing the starting position of the player and the dot
 static constexpr int PLAYER_START_X = -25;
