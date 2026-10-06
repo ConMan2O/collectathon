@@ -47,7 +47,8 @@ int main()
     bn::core::init();
 
     // Change 2 - Changed the backdrop color to a light blue color
-    bn::bg_palettes::set_transparent_color(bn::color(20, 26, 31));
+    // KFG - changed the last parameter
+    bn::bg_palettes::set_transparent_color(bn::color(15, 26, 25));
 
     bn::random rng = bn::random();
 
