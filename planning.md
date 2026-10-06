@@ -26,6 +26,17 @@ bn::string<MAX_SCORE_CHARS> score_string = bn::to_string<MAX_SCORE_CHARS>(score)
                                 score_sprites);   
 This piece of code updates the score. I see there is a clear method which I think erases the current score before its updated with the newer score. 
 
+KFG - 
+// Score location
+static constexpr int SCORE_X = 70;
+static constexpr int SCORE_Y = -70;
+This code displays the score on the screen
+
+KFG - 
+// charges of boost ability
+    int boostCount = 3;
+I think this code allows the player to increase speed of the sprite.
+
 ## Planning required changes
 
 1. Change the speed of the player
