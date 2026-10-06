@@ -51,6 +51,10 @@ I think this code allows the player to increase speed of the sprite.
     timer could tick down every frame (if > 0) and increase on A press
 
 ## Brainstorming game ideas
+KFG ideas
+- Add some enemies like bugs or space monsters 
+- Have three rockets under the score to represent boosts left
+- Have a background like in space or forest
 
 ## Plan for implementing game
 
