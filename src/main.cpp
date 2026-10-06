@@ -16,7 +16,8 @@
 
 // Pixels / Frame player moves at
 // Change 1 - Changed the speed from 1 to 2
-static constexpr bn::fixed SPEED = 2.0;
+// KFG - Slightly changed the speed of the sprite
+static constexpr bn::fixed SPEED = 1.8;
 
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
@@ -31,8 +32,8 @@ static constexpr int MAX_X = bn::display::width() / 2;
 // Number of characters required to show the longest numer possible in an int (-2147483647)
 static constexpr int MAX_SCORE_CHARS = 11;
 
-// Slight change - KFG
 // Score location
+// Slight change - KFG
 static constexpr int SCORE_X = 80;
 static constexpr int SCORE_Y = -60;
 
@@ -96,21 +97,22 @@ int main()
         // Move player with d-pad
         if (boostTimer > 0) { 
             // if there is time remaining on a boost, double movement speed
+            // KFG - Required change #6. Changed speed from 2 to 3
             if (bn::keypad::left_held())
             {
-                player.set_x(player.x() - (SPEED * 2));
+                player.set_x(player.x() - (SPEED * 3));
             }
             if (bn::keypad::right_held())
             {
-                player.set_x(player.x() + (SPEED * 2));
+                player.set_x(player.x() + (SPEED * 3));
             }
             if (bn::keypad::up_held())
             {
-                player.set_y(player.y() - (SPEED * 2));
+                player.set_y(player.y() - (SPEED * 3));
             }
             if (bn::keypad::down_held())
             {
-                player.set_y(player.y() + (SPEED * 2));
+                player.set_y(player.y() + (SPEED * 3));
             }
             boostTimer--; // subtract time from boost each frame
         } else { // if no boost time remaining: move at normal speed
