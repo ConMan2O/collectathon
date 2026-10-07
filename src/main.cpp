@@ -37,6 +37,12 @@ static constexpr int MAX_SCORE_CHARS = 11;
 static constexpr int SCORE_X = 80;
 static constexpr int SCORE_Y = -60;
 
+// Wave 6 - Boost indicator location and information
+static constexpr int BOOST_X = 80;
+static constexpr int BOOST_Y = -50;
+static constexpr int BOOST_WIDTH = 8;
+static constexpr int START_BOOST = 3;
+
 // Change 3 - Changing the starting position of the player and the dot
 static constexpr int PLAYER_START_X = -25;
 static constexpr int PLAYER_START_Y = 25;
@@ -55,12 +61,13 @@ int main()
 
     // Will hold the sprites for the score
     bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> score_sprites = {};
+    bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> boost_sprites = {};
     bn::sprite_text_generator text_generator(common::fixed_8x16_sprite_font);
 
     // timer used for speed boost functionality (measured in frames)
     int boostTimer = 0;
     // charges of boost ability
-    int boostCount = 3;
+    int boostCount = START_BOOST;
 
     int score = 0;
 
@@ -77,7 +84,7 @@ int main()
             player.set_position(PLAYER_START_X, PLAYER_START_Y);
             treasure.set_position(TREASURE_START_X, TREASURE_START_Y);
             boostTimer = 0;
-            boostCount = 3;
+            boostCount = START_BOOST;
         }
 
         // Change 5 - The player loops around the screen when they go off the edge
@@ -160,12 +167,21 @@ int main()
             score++;
         }
 
+        // Update boost display
+        bn::string<MAX_SCORE_CHARS> boost_string = "B: " + bn::to_string<MAX_SCORE_CHARS>(boostCount);
+
         // Update score display
         bn::string<MAX_SCORE_CHARS> score_string = bn::to_string<MAX_SCORE_CHARS>(score);
         score_sprites.clear();
         text_generator.generate(SCORE_X, SCORE_Y,
                                 score_string,
                                 score_sprites);
+
+        // Update boost display
+        boost_sprites.clear();
+        text_generator.generate(BOOST_X, BOOST_Y,
+                                boost_string,
+                                boost_sprites);
 
         // Update RNG seed every frame so we don't get the same sequence of positions every time
         rng.update();
