@@ -52,6 +52,11 @@ static constexpr int PLAYER_START_Y = 25;
 static constexpr int TREASURE_START_X = 0;
 static constexpr int TREASURE_START_Y = 0;
 
+// Location and information of life display
+static constexpr int LIFE_X = 80;
+static constexpr int LIFE_Y = -40;
+static constexpr int START_LIVES = 5;
+
 int main()
 {
     bn::core::init();
@@ -180,7 +185,7 @@ int main()
         if(bn::keypad::left_pressed() || bn::keypad::right_pressed() || bn::keypad::up_pressed() || bn::keypad::down_pressed()) {
             bn::sound_items::alert.play();
         }
-        
+
         // Update boost display
         bn::string<MAX_SCORE_CHARS> boost_string = "B: " + bn::to_string<MAX_SCORE_CHARS>(boostCount);
 
