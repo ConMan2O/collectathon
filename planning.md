@@ -53,10 +53,13 @@ I think this code allows the player to increase speed of the sprite.
 ## Brainstorming game ideas
 KFG ideas
 - Add some enemies like bugs or space monsters 
+ - I do think something like this or hazards of some kind would be good, we could have them subtract score if touched, or add a health bar/life system - Matthew
 - Have three rockets under the score to represent boosts left
 - Have a background like in space or forest
 - Add a barrier to the edge of the map
 - Gives player bonus boost every 5 points they earn
+
+- Could add acceleration on movement instead of having player go from 0 to top speed instantly - Matthew
 
 ## Plan for implementing game
 
