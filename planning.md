@@ -55,6 +55,7 @@ KFG ideas
 - Add some enemies like bugs or space monsters 
 - Have three rockets under the score to represent boosts left
 - Have a background like in space or forest
+- Add a barrier to the edge of the map
 
 ## Plan for implementing game
 
