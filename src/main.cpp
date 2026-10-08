@@ -87,18 +87,18 @@ int main()
             boostCount = START_BOOST;
         }
 
-        // Change 5 - The player loops around the screen when they go off the edge
-        if (player.x() < MIN_X){
-            player.set_x(MAX_X);
+        // Wave 6 - Adds a barrier to the edge of the screen 
+        if (player.x() < MIN_X+4){
+            player.set_x(MIN_X+4);
         }
-        if (player.x() > MAX_X){
-            player.set_x(MIN_X);
+        if (player.x() > MAX_X+4){
+            player.set_x(MAX_X+4);
         }
-        if (player.y() < MIN_Y){
-            player.set_y(MAX_Y);
+        if (player.y() < MIN_Y+4){
+            player.set_y(MIN_Y+4);
         }
-        if (player.y() > MAX_Y){
-            player.set_y(MIN_Y);
+        if (player.y() > MAX_Y+4){
+            player.set_y(MAX_Y+4);
         }
 
         // Move player with d-pad
