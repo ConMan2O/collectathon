@@ -14,6 +14,9 @@
 #include "bn_sprite_items_square.h"
 #include "common_fixed_8x16_font.h"
 
+#include "bn_audio.h"
+#include "bn_sound_items.h"
+
 // Pixels / Frame player moves at
 // Change 1 - Changed the speed from 1 to 2
 // KFG - Slightly changed the speed of the sprite
@@ -97,7 +100,6 @@ int main()
         // Move player with d-pad
         if (boostTimer > 0) { 
             // if there is time remaining on a boost, double movement speed
-            // KFG - Required change #6. Changed speed from 2 to 3
             if (bn::keypad::left_held())
             {
                 player.set_x(player.x() - (SPEED * 3));
@@ -160,12 +162,19 @@ int main()
             score++;
         }
 
+        // Sound effect every time touch pad is pressed
+        if(bn::keypad::left_pressed() || bn::keypad::right_pressed() || bn::keypad::up_pressed() || bn::keypad::down_pressed()) {
+            bn::sound_items::alert.play();
+        }
+
         // Update score display
         bn::string<MAX_SCORE_CHARS> score_string = bn::to_string<MAX_SCORE_CHARS>(score);
         score_sprites.clear();
         text_generator.generate(SCORE_X, SCORE_Y,
                                 score_string,
                                 score_sprites);
+
+        
 
         // Update RNG seed every frame so we don't get the same sequence of positions every time
         rng.update();
