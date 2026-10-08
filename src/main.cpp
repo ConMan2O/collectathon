@@ -91,14 +91,14 @@ int main()
         if (player.x() < MIN_X+4){
             player.set_x(MIN_X+4);
         }
-        if (player.x() > MAX_X+4){
-            player.set_x(MAX_X+4);
+        if (player.x() > MAX_X-4){
+            player.set_x(MAX_X-4);
         }
         if (player.y() < MIN_Y+4){
             player.set_y(MIN_Y+4);
         }
-        if (player.y() > MAX_Y+4){
-            player.set_y(MAX_Y+4);
+        if (player.y() > MAX_Y-4){
+            player.set_y(MAX_Y-4);
         }
 
         // Move player with d-pad
@@ -165,6 +165,11 @@ int main()
             treasure.set_position(new_x, new_y);
 
             score++;
+        }
+
+        // Wave 6 - Gives player a bonus boost every 5 points
+        if (score % 5 == 0) {
+            boostCount++;
         }
 
         // Update boost display
