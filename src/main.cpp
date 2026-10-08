@@ -165,11 +165,11 @@ int main()
             treasure.set_position(new_x, new_y);
 
             score++;
-        }
 
-        // Wave 6 - Gives player a bonus boost every 5 points
-        if (score % 5 == 0) {
-            boostCount++;
+                // Wave 6 - Gives player a bonus boost every 5 points
+            if (score % 5 == 0) {
+                boostCount++;
+            }
         }
 
         // Update boost display
