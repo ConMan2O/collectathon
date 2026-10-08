@@ -169,15 +169,18 @@ int main()
             score++;
 
                 // Wave 6 - Gives player a bonus boost every 5 points
-            if (score % 5 == 0) {
+                // Capped extra boosts at starting value to encourage using them and prevent text overflow - Matthew
+            if (score % 5 == 0 && boostCount < START_BOOST) {
                 boostCount++;
             }
         }
 
         // Sound effect every time touch pad is pressed
+        // This might be a bit much - maybe play when the player picks up the treasure? - Matthew
         if(bn::keypad::left_pressed() || bn::keypad::right_pressed() || bn::keypad::up_pressed() || bn::keypad::down_pressed()) {
             bn::sound_items::alert.play();
         }
+        
         // Update boost display
         bn::string<MAX_SCORE_CHARS> boost_string = "B: " + bn::to_string<MAX_SCORE_CHARS>(boostCount);
 
