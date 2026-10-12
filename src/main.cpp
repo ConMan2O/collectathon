@@ -10,7 +10,7 @@
 #include <bn_string.h>
 #include <bn_bg_palettes.h>
 #include <bn_color.h>
-#include "bn_sprite_items_dot.h"
+#include "bn_sprite_items_treasure.h"
 #include "bn_sprite_items_square.h"
 #include "common_fixed_8x16_font.h"
 
@@ -88,7 +88,7 @@ int main()
     int score = 0;
 
     bn::sprite_ptr player = bn::sprite_items::square.create_sprite(PLAYER_START_X, PLAYER_START_Y);
-    bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(TREASURE_START_X, TREASURE_START_Y);
+    bn::sprite_ptr treasure = bn::sprite_items::treasure.create_sprite(TREASURE_START_X, TREASURE_START_Y);
 
     // Wave 7 - minusone starts at a random spot
     bn::sprite_ptr minusone = bn::sprite_items::minusone.create_sprite(
