@@ -17,7 +17,7 @@
 #include "bn_audio.h" // KFG 
 #include "bn_sound_items.h" //KFG
 
-#include "bn_sprite_items_face.h" // Wave 6.5
+#include "bn_sprite_items_minusone.h" // Wave 6.5
 
 // Pixels / Frame player moves at
 // Change 1 - Changed the speed from 1 to 2
@@ -85,7 +85,7 @@ int main()
     bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(TREASURE_START_X, TREASURE_START_Y);
 
     // Wave 6.5 - Added a face sprite to the game
-    bn::sprite_ptr face = bn::sprite_items::face.create_sprite();
+    bn::sprite_ptr minusone = bn::sprite_items::minusone.create_sprite();
 
     while (true)
     {
