@@ -14,10 +14,10 @@
 #include "bn_sprite_items_square.h"
 #include "common_fixed_8x16_font.h"
 
-#include "bn_audio.h" // KFG 
+#include "bn_audio.h"       // KFG
 #include "bn_sound_items.h" //KFG
 
-#include "bn_sprite_items_minusone.h" // Wave 6.5
+#include "bn_sprite_items_minusone.h" // Wave 7
 
 // Pixels / Frame player moves at
 // Change 1 - Changed the speed from 1 to 2
@@ -28,11 +28,17 @@ static constexpr bn::fixed SPEED = 1.8;
 static constexpr bn::size PLAYER_SIZE = {8, 8};
 static constexpr bn::size TREASURE_SIZE = {8, 8};
 
+// Wave 7 - Width and height of the minusone
+static constexpr bn::size MINUSONE_SIZE = {16, 16};
+
 // Full bounds of the screen
 static constexpr int MIN_Y = -bn::display::height() / 2;
 static constexpr int MAX_Y = bn::display::height() / 2;
 static constexpr int MIN_X = -bn::display::width() / 2;
 static constexpr int MAX_X = bn::display::width() / 2;
+
+// Wave 7 - Keeps minusone fully on screen
+static constexpr int MINUSONE_MARGIN = 8;
 
 // Number of characters required to show the longest numer possible in an int (-2147483647)
 static constexpr int MAX_SCORE_CHARS = 11;
@@ -84,8 +90,10 @@ int main()
     bn::sprite_ptr player = bn::sprite_items::square.create_sprite(PLAYER_START_X, PLAYER_START_Y);
     bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(TREASURE_START_X, TREASURE_START_Y);
 
-    // Wave 6.5 - Added a face sprite to the game
-    bn::sprite_ptr minusone = bn::sprite_items::minusone.create_sprite();
+    // Wave 7 - minusone starts at a random spot
+    bn::sprite_ptr minusone = bn::sprite_items::minusone.create_sprite(
+        rng.get_int(MIN_X + MINUSONE_MARGIN, MAX_X - MINUSONE_MARGIN),
+        rng.get_int(MIN_Y + MINUSONE_MARGIN, MAX_Y - MINUSONE_MARGIN));
 
     while (true)
     {
@@ -98,24 +106,33 @@ int main()
             treasure.set_position(TREASURE_START_X, TREASURE_START_Y);
             boostTimer = 0;
             boostCount = START_BOOST;
+
+            // Wave 7 - send minusone to a new random spot on restart
+            minusone.set_position(rng.get_int(MIN_X + MINUSONE_MARGIN, MAX_X - MINUSONE_MARGIN),
+                                  rng.get_int(MIN_Y + MINUSONE_MARGIN, MAX_Y - MINUSONE_MARGIN));
         }
 
-        // Wave 6 - Adds a barrier to the edge of the screen 
-        if (player.x() < MIN_X+4){
-            player.set_x(MIN_X+4);
+        // Wave 6 - Adds a barrier to the edge of the screen
+        if (player.x() < MIN_X + 4)
+        {
+            player.set_x(MIN_X + 4);
         }
-        if (player.x() > MAX_X-4){
-            player.set_x(MAX_X-4);
+        if (player.x() > MAX_X - 4)
+        {
+            player.set_x(MAX_X - 4);
         }
-        if (player.y() < MIN_Y+4){
-            player.set_y(MIN_Y+4);
+        if (player.y() < MIN_Y + 4)
+        {
+            player.set_y(MIN_Y + 4);
         }
-        if (player.y() > MAX_Y-4){
-            player.set_y(MAX_Y-4);
+        if (player.y() > MAX_Y - 4)
+        {
+            player.set_y(MAX_Y - 4);
         }
 
         // Move player with d-pad
-        if (boostTimer > 0) { 
+        if (boostTimer > 0)
+        {
             // if there is time remaining on a boost, double movement speed
             if (bn::keypad::left_held())
             {
@@ -134,7 +151,9 @@ int main()
                 player.set_y(player.y() + (SPEED * 3));
             }
             boostTimer--; // subtract time from boost each frame
-        } else { // if no boost time remaining: move at normal speed
+        }
+        else
+        { // if no boost time remaining: move at normal speed
             if (bn::keypad::left_held())
             {
                 player.set_x(player.x() - SPEED);
@@ -153,7 +172,8 @@ int main()
             }
         }
         // when player presses A and boost is not active, add ~5 seconds to boost timer
-        if (bn::keypad::a_pressed() && boostCount > 0 && boostTimer == 0) {      
+        if (bn::keypad::a_pressed() && boostCount > 0 && boostTimer == 0)
+        {
             boostTimer = 300;
             boostCount--;
         }
@@ -176,19 +196,40 @@ int main()
             int new_y = rng.get_int(MIN_Y, MAX_Y);
             treasure.set_position(new_x, new_y);
 
+            // Wave 7 - minusone also jumps to a new random spot when the treasure is collected
+            minusone.set_position(rng.get_int(MIN_X + MINUSONE_MARGIN, MAX_X - MINUSONE_MARGIN),
+                                  rng.get_int(MIN_Y + MINUSONE_MARGIN, MAX_Y - MINUSONE_MARGIN));
+
             score++;
 
-                // Wave 6 - Gives player a bonus boost every 5 points
-                // Capped extra boosts at starting value to encourage using them and prevent text overflow - Matthew
-            if (score % 5 == 0 && boostCount < START_BOOST) {
+            // Wave 6 - Gives player a bonus boost every 5 points
+            // Capped extra boosts at starting value to encourage using them and prevent text overflow - Matthew
+            if (score % 5 == 0 && boostCount < START_BOOST)
+            {
                 boostCount++;
             }
         }
 
         // Sound effect every time touch pad is pressed
         // This might be a bit much - maybe play when the player picks up the treasure? - Matthew
-        if(bn::keypad::left_pressed() || bn::keypad::right_pressed() || bn::keypad::up_pressed() || bn::keypad::down_pressed()) {
+        if (bn::keypad::left_pressed() || bn::keypad::right_pressed() || bn::keypad::up_pressed() || bn::keypad::down_pressed())
+        {
             bn::sound_items::alert.play();
+        }
+
+        // Wave 7 - Bounding box of minusone (checked after the treasure, so it uses minusone's newest position)
+        bn::rect minusone_rect = bn::rect(minusone.x().round_integer(),
+                                          minusone.y().round_integer(),
+                                          MINUSONE_SIZE.width(),
+                                          MINUSONE_SIZE.height());
+
+        // Wave 7 - Touching minusone subtracts a point and sends it to a new random spot
+        if (player_rect.intersects(minusone_rect))
+        {
+            minusone.set_position(rng.get_int(MIN_X + MINUSONE_MARGIN, MAX_X - MINUSONE_MARGIN),
+                                  rng.get_int(MIN_Y + MINUSONE_MARGIN, MAX_Y - MINUSONE_MARGIN));
+
+            score--;
         }
 
         // Update boost display
@@ -201,7 +242,6 @@ int main()
                                 score_string,
                                 score_sprites);
 
-        
         // Update boost display
         boost_sprites.clear();
         text_generator.generate(BOOST_X, BOOST_Y,
