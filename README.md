@@ -1,7 +1,6 @@
-# collectathon
-A template to explore GBA games and collaboration with git/GitHub. Please see the instructions in [instructions.md](./instructions.md).
+# Coin Collector
+So basically you collect coins and stuff.. also don't touch the restricted zone or else..
 
-hello test test
-test 2
-this file has been modified. wow it sure is different from the way it was
-Wave 2 - KFG
+View Github page here >> https://github.com/ConMan2O/collectathon
+
+![alt text](game-vid.gif)
