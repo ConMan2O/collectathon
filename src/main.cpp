@@ -16,6 +16,7 @@
 
 #include "bn_audio.h"       // KFG
 #include "bn_sound_items.h" //KFG
+#include "bn_sprite_items_face.h" // KFG Wave 6.5
 
 #include "bn_sprite_items_minusone.h" // Wave 7
 
@@ -87,7 +88,7 @@ int main()
 
     int score = 0;
 
-    bn::sprite_ptr player = bn::sprite_items::square.create_sprite(PLAYER_START_X, PLAYER_START_Y);
+    bn::sprite_ptr player = bn::sprite_items::face.create_sprite(PLAYER_START_X, PLAYER_START_Y);
     bn::sprite_ptr treasure = bn::sprite_items::treasure.create_sprite(TREASURE_START_X, TREASURE_START_Y);
 
     // Wave 7 - minusone starts at a random spot
